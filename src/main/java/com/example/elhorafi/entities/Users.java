@@ -1,9 +1,14 @@
 package com.example.elhorafi.entities;
+import com.example.elhorafi.enums.Role;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class Users{
@@ -19,5 +24,8 @@ public class Users{
     private String email;
     @Column(name = "password")
     private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
 
 }

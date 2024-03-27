@@ -9,5 +9,4 @@ public class ElhorafiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ElhorafiApplication.class, args);
 	}
-
 }
