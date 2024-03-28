@@ -1,14 +1,11 @@
 package com.example.elhorafi.controllers;
 
 
-import com.example.elhorafi.dtos.GenericResponse;
-import com.example.elhorafi.dtos.SignInRequest;
 import com.example.elhorafi.dtos.UserDto;
-import com.example.elhorafi.security.JwtUtil;
+import com.example.elhorafi.entities.Users;
 import com.example.elhorafi.services.UserService;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,26 +19,26 @@ public class UserController {
     private final UserService userService;
 
 
-    @GetMapping("/login")
-    public String login(@RequestBody UserDto request) {
-        System.out.println(request);
-        String token = JwtUtil.generateToken(request.getFirstName());
-        System.out.println(token);
-        return token;
-    }
-    @PostMapping("/login")
-    public ResponseEntity<GenericResponse<Object>> login(@Valid @RequestBody SignInRequest request, HttpServletResponse response) {
-        return ResponseEntity.status(HttpStatus.OK).body(GenericResponse.success(userService.signIn(request,response),"Login Successfully."));
-    }
-
     @PostMapping("/add")
-    public UserDto postUser(@RequestBody UserDto request) {
-        return userService.add(request);
+    public ResponseEntity<UserDto> create(@RequestBody UserDto userDto){
+            userService.add(userDto);
+            return ResponseEntity.ok(userDto);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<UserDto> getAll() {
         return userService.all();
+    }
+
+    @GetMapping("/email")
+    public Users loadUserByUsername(RequestBody UserDto) {
+        System.out.println(UserDto);
+        return userService.loadUserByUsername("mohamed@gmail.com");
+    }
+
+    @PostMapping("/login")
+    public void loginUser(@RequestBody UserDto request) {
+        System.out.println(request);
     }
 
 }
